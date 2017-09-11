@@ -1,0 +1,11 @@
+-cp src
+-cp scripts/release
+
+-D analyzer-optimize
+-main Main
+
+-lib hx-uri-templates
+-lib hxargs
+-lib format
+
+-neko bin/release.n
