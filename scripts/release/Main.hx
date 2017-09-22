@@ -6,8 +6,6 @@ import github.*;
 import github.api.*;
 import SysHelper.*;
 
-using StringTools;
-
 class Main {
 
 	var config:Config;
@@ -94,13 +92,16 @@ class Main {
 			exit(1);
 		}
 
-		for (file in sys.FileSystem.readDirectory(directory)) {
-			if (!file.startsWith("haxe-" + config.haxeVersion)) {
-				continue;
+		var fileNameBase = "haxe-" + config.haxeVersion + "-";
+		for (target in config.targets) {
+			var fileName = fileNameBase + config.targetFileNameMap[target] + "." + config.targetFileExtensionMap[target];
+			var path = Path.join([directory, fileName]);
+			if (!sys.FileSystem.exists(path)) {
+				stderr("Could not find file " + path);
+				exit(1);
 			}
-			var path = Path.join([directory, file]);
 			uploadAsset(release, path);
-		};
+		}
 	}
 
 	function parseChangelog() {

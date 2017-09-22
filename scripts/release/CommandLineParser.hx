@@ -12,6 +12,17 @@ class CommandLineParser {
 			["-t", "--token"] => function(token:String) {
 				config.accessToken = token;
 			},
+			@doc("Comma separated list of what targets to handle: linux64 mac-installer mac windows-installer windows")
+			["-ts", "--targets"] => function(s:String) {
+				var targets = s.split(",");
+				for (target in targets) {
+					if (!config.targetFileNameMap.exists(target)) {
+						stderr('Unknown target: $target');
+						exit(1);
+					}
+				}
+				config.targets = targets;
+			},
 			@doc("The base server URL to fetch builds from")
 			["-s", "--server-url"] => function(url:String) {
 				config.buildServerUrl = haxe.io.Path.addTrailingSlash(url);

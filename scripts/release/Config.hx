@@ -4,6 +4,7 @@ class Config {
 	public var targets:Array<String>;
 	public var haxeVersion:String;
 	public var targetFileNameMap:Map<String, String>;
+	public var targetFileExtensionMap:Map<String, String>;
 	public var changelogVersions:Array<String>;
 	public var accessToken:String;
 	public var download:Bool;
@@ -27,6 +28,13 @@ class Config {
 			"mac" => "osx",
 			"windows-installer" => "win",
 			"windows" => "win"
+		];
+		targetFileExtensionMap = [
+			"linux64" => "tar.gz",
+			"mac-installer" => "pkg",
+			"mac" => "tar.gz",
+			"windows-installer" => "exe",
+			"windows" => "zip"
 		];
 	}
 }
