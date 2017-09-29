@@ -12,6 +12,7 @@ class Config {
 	public var updateRelease:Bool;
 	public var updateWebsite:Bool;
 	public var generateApiDocs:Bool;
+	public var dry:Bool;
 
 	public function new() {
 		changelogVersions = [];
@@ -36,5 +37,6 @@ class Config {
 			"windows-installer" => "exe",
 			"windows" => "zip"
 		];
+		dry = false;
 	}
 }

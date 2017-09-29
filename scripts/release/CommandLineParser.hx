@@ -61,6 +61,10 @@ class CommandLineParser {
 			@doc("Generate API documentation")
 			["-doc", "--documentation"] => function() {
 				config.generateApiDocs = true;
+			},
+			@doc("Don't change anything")
+			["--dry"] => function() {
+				config.dry = true;
 			}
 		]);
 

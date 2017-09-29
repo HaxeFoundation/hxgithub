@@ -81,7 +81,9 @@ class Main {
 		var path = new haxe.io.Path(file);
 		var bytes = sys.io.File.getBytes(file);
 		print("Uploading " + file + " to GitHub release " + release.tag_name + "...");
-		api.releases.uploadAsset(release, path.file + "." + path.ext, bytes);
+		if (!config.dry) {
+			api.releases.uploadAsset(release, path.file + "." + path.ext, bytes);
+		}
 		println(" done");
 	}
 
@@ -114,10 +116,12 @@ class Main {
 
 	function updateRelease(release:Release, changelogMd:String) {
 		print("Updating GitHub release...");
-		api.releases.edit(release, {
-			name: config.haxeVersion,
-			body: changelogMd
-		});
+		if (!config.dry) {
+			api.releases.edit(release, {
+				name: config.haxeVersion,
+				body: changelogMd
+			});
+		}
 		println(" done");
 	}
 
@@ -127,11 +131,15 @@ class Main {
 			try {
 				var file = api.content.getFile(path);
 				print("Updating " + path + " in repository...");
-				api.content.updateFile(file, content, "release " + config.haxeVersion, "staging");
+				if (!config.dry) {
+					api.content.updateFile(file, content, "release " + config.haxeVersion, "staging");
+				}
 				println(" done");
 			} catch(e:Dynamic) {
 				print("Creating " + path + " in repository...");
-				api.content.createFile(path, content, "release " + config.haxeVersion, "staging");
+				if (!config.dry) {
+					api.content.createFile(path, content, "release " + config.haxeVersion, "staging");
+				}
 				println(" done");
 			}
 		}
