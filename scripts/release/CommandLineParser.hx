@@ -31,10 +31,6 @@ class CommandLineParser {
 			["-h", "--haxe-version"] => function(version:String) {
 				config.haxeVersion = version;
 			},
-			@doc("The file name to fetch")
-			["-f", "--filename"] => function(fileName:String) {
-				config.fileName = fileName;
-			},
 			@doc("Comma separated list of changelog versions")
 			["-c", "--changelog"] => function(versions:String) {
 				var versions = versions.split(",");
@@ -43,8 +39,9 @@ class CommandLineParser {
 				}
 			},
 			@doc("Download binaries from build server")
-			["-d", "--download"] => function() {
+			["-d", "--download"] => function(fileName:String) {
 				config.download = true;
+				config.fileName = fileName;
 			},
 			@doc("Upload binaries to GitHub release")
 			["-u", "--upload"] => function() {

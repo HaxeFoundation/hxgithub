@@ -14,7 +14,7 @@ Session for Haxe releases:
 
 ```
 # download binaries
-neko release.n -t personal_access_token -h 4.0.0-preview.1 -f haxe_2017-09-12_master_2344f23.tar.gz -d
+neko release.n -t personal_access_token -h 4.0.0-preview.1 -d haxe_2017-09-12_master_2344f23.tar.gz
 # upload binaries
 neko release.n -t personal_access_token -h 4.0.0-preview.1 -u
 # update release & website
