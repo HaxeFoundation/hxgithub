@@ -4,15 +4,16 @@ import haxe.Json;
 
 class Api {
 
-	public var connection:ApiConnection;
+	public final connection:ApiConnection;
+
 	public var repository(default, null):String;
 	public var owner(default, null):String;
 
-	public var commits(default, null):CommitApi;
-	public var content(default, null):ContentApi;
-	public var issues(default, null):IssueApi;
-	public var references(default, null):ReferenceApi;
-	public var releases(default, null):ReleaseApi;
+	public final commits:CommitApi;
+	public final content:ContentApi;
+	public final issues:IssueApi;
+	public final references:ReferenceApi;
+	public final releases:ReleaseApi;
 
 	public function new(connection:ApiConnection) {
 		this.connection = connection;
