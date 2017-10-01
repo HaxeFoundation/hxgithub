@@ -5,7 +5,7 @@
 	"tasks": [
 		{
 			"type": "hxml",
-			"file": "build-release.hxml",
+			"file": "build-issue-selector.hxml",
 			"problemMatcher": [
 				"$haxe"
 			],

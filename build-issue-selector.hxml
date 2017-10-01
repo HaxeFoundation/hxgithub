@@ -1,6 +1,6 @@
 -cp src
 -cp scripts/helper
--cp scripts/release
+-cp scripts/issue-selector
 
 -D analyzer-optimize
 -main Main
@@ -9,4 +9,4 @@
 -lib hxargs
 -lib format
 
--neko bin/release.n
+-neko bin/issue-selector.n
