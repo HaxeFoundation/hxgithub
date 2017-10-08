@@ -16,6 +16,9 @@ class Main {
 		api = createGitHubApi();
 		var releaseNotes = getReleaseNotes();
 		var release = getRelease();
+		if (config.download || config.updateRelease) {
+			createDownloadDirectory();
+		}
 		if (config.download) {
 			download();
 		}
@@ -29,6 +32,11 @@ class Main {
 			}
 			if (config.updateWebsite) {
 				updateHaxeOrg(changelogMd, releaseNotes);
+			}
+			if (config.dry) {
+				var changelogName = "./" + config.haxeVersion + "/CHANGES.md";
+				println("saving changelog to " + changelogName + " because this is a dry run");
+				File.saveContent(changelogName, changelogMd);
 			}
 		}
 		if (config.generateApiDocs) {
@@ -54,19 +62,7 @@ class Main {
 		return release;
 	}
 
-	function getReleaseNotes() {
-		var path = "./" + config.haxeVersion + "/RELEASE.md";
-		if (!FileSystem.exists(path)) {
-			if (config.updateWebsite) {
-				stderr("File " + path + " not found (required for website update)");
-				exit(1);
-			}
-			return null;
-		}
-		return File.getContent(path);
-	}
-
-	function download() {
+	function createDownloadDirectory() {
 		var directory = "./" + config.haxeVersion;
 		if (!FileSystem.exists(directory)) {
 			FileSystem.createDirectory(directory);
@@ -74,6 +70,28 @@ class Main {
 		} else {
 			println("Found output directory " + directory);
 		}
+	}
+
+	function getReleaseNotes() {
+		var path = "./" + config.haxeVersion + "/RELEASE.md";
+		if (!FileSystem.exists(path)) {
+			if (config.updateWebsite) {
+				if (config.dry) {
+					createDownloadDirectory();
+					File.saveContent(path, "");
+					println("File " + path + " not found (created it because this is a dry run)");
+				}
+				else {
+					stderr("File " + path + " not found (required for website update)");
+					exit(1);
+				}
+			}
+			return null;
+		}
+		return File.getContent(path);
+	}
+
+	function download() {
 		new BinaryDownloader(config).run();
 	}
 
