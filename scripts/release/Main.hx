@@ -96,7 +96,7 @@ class Main {
 
 		var fileNameBase = "haxe-" + config.haxeVersion + "-";
 		for (target in config.targets) {
-			var fileName = fileNameBase + config.targetFileNameMap[target] + "." + config.targetFileExtensionMap[target];
+			var fileName = fileNameBase + config.getFileName(target) + "." + config.getFileExtension(target);
 			var path = Path.join([directory, fileName]);
 			if (!sys.FileSystem.exists(path)) {
 				stderr("Could not find file " + path);

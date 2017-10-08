@@ -15,13 +15,15 @@ class CommandLineParser {
 			@doc("Comma separated list of what targets to handle: linux64 mac-installer mac windows-installer windows")
 			["-ts", "--targets"] => function(s:String) {
 				var targets = s.split(",");
+				config.targets = [];
 				for (target in targets) {
-					if (!config.targetFileNameMap.exists(target)) {
+					try {
+						config.targets.push(target);
+					} catch(s:String) {
 						stderr('Unknown target: $target');
 						exit(1);
 					}
 				}
-				config.targets = targets;
 			},
 			@doc("The base server URL to fetch builds from")
 			["-s", "--server-url"] => function(url:String) {

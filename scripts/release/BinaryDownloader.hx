@@ -1,5 +1,6 @@
 import haxe.io.*;
 import sys.io.*;
+import Config.Target;
 
 using StringTools;
 
@@ -33,10 +34,10 @@ class BinaryDownloader {
 		}
 	}
 
-	function handleTarget(target:String) {
+	function handleTarget(target:Target) {
 		try {
 			var fileName = switch (target) {
-				case "windows" | "windows-installer": config.fileName.replace(".tar.gz", ".zip");
+				case Windows32 | Windows32Installer | Windows64 | Windows64Installer: config.fileName.replace(".tar.gz", ".zip");
 				case _: config.fileName;
 			}
 			var url = Path.join([config.buildServerUrl, target, fileName]);
@@ -80,22 +81,22 @@ class BinaryDownloader {
 		return entries;
 	}
 
-	function onData(target:String, s:String) {
+	function onData(target:Target, s:String) {
 		Sys.println('Received content for $target');
-		var name = 'haxe-${config.haxeVersion}-${config.targetFileNameMap[target]}';
+		var name = 'haxe-${config.haxeVersion}-${config.getFileName(target)}';
 		name = config.haxeVersion + "/" + name;
 		switch(target) {
-			case "linux32" | "linux64" | "mac" | "raspbian":
+			case Linux64 | Mac:
 				File.saveContent(name + ".tar.gz", s);
-			case "windows":
+			case Windows32 | Windows64:
 				File.saveContent(name + ".zip", s);
-			case "mac-installer":
+			case MacInstaller:
 				var data = unpack(s);
 				while(data.first().data.length == 0) {
 					data.pop();
 				}
 				File.saveBytes(name + ".pkg", data.first().data);
-			case "windows-installer":
+			case Windows32Installer | Windows64Installer:
 				var zip = new haxe.zip.Reader(new haxe.io.StringInput(s));
 				for (elt in zip.read()) {
 					if (elt.fileSize == 0) {
