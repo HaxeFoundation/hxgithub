@@ -38,7 +38,7 @@ class BinaryDownloader {
 		try {
 			var fileName = switch (target) {
 				case Windows32 | Windows32Installer | Windows64 | Windows64Installer: config.fileName.replace(".tar.gz", ".zip");
-				case Linux | Mac | MacInstaller: config.fileName.replace(".zip", ".tar.gz");
+				case Linux64 | Mac | MacInstaller: config.fileName.replace(".zip", ".tar.gz");
 			}
 			var url = Path.join([config.buildServerUrl, target, fileName]);
 			Sys.println('Requesting $url');
