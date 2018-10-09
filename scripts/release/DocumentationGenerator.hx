@@ -33,13 +33,17 @@ class DocumentationGenerator {
 		}
 		println(" done");
 
-		var doxPath = "C:/github/dox"; // TODO: have to get that from haxelib
+		var unzipPath = config.haxeVersion + "/doc/haxe-" + config.haxeVersion;
 		var path = config.haxeVersion + "/api-" + config.haxeVersion + ".zip";
 		print("Generating documentation XML...");
-		command("cd " + config.haxeVersion + "/doc/haxe-" + config.haxeVersion + " && haxe --cwd " + doxPath + " gen.hxml");
+		var failed = 0 != command("cd " + unzipPath + " && haxe --cwd extra doc.hxml");
+		if (failed) {
+			stderr("Could not generate documentation XML files");
+			exit(1);
+		}
 		println(" done");
 		print("Generating documentation .zip...");
-		command('haxelib run dox -theme haxe_api -D website "http://haxe.org/" --title "Haxe API" -o $path -D version "${config.haxeVersion}" -i $doxPath/bin/xml -ex microsoft -ex javax -ex cs.internal -D source-path https://github.com/HaxeFoundation/haxe/blob/master/std/');
+		command('haxelib run dox -D website "http://haxe.org/" --title "Haxe API" -o $path -D version "${config.haxeVersion}" -i $unzipPath/extra/doc -ex microsoft -ex javax -ex cs.internal -D source-path https://github.com/HaxeFoundation/haxe/blob/master/std/');
 		println(" done");
 		return path;
 	}
