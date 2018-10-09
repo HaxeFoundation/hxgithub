@@ -1,3 +1,4 @@
+import sys.io.File;
 using StringTools;
 
 import Sys.*;
@@ -70,9 +71,13 @@ class CommandLineParser {
 		argParser.parse(args());
 
 		if (config.accessToken == null) {
-			stderr("Required argument --token is missing");
-			stderr(argParser.getDoc());
-			exit(1);
+			try {
+				config.accessToken = File.getContent(".github-token");
+			} catch(e:Dynamic) {
+				stderr("Required argument --token is missing");
+				stderr(argParser.getDoc());
+				exit(1);
+			}
 		} else if (config.haxeVersion == null) {
 			stderr("Required argument --haxe-version is missing");
 			stderr(argParser.getDoc());
