@@ -1,5 +1,6 @@
 package github.api;
 
+import haxe.io.Bytes;
 import haxe.Http;
 import haxe.Json;
 import haxe.io.Path;
@@ -24,25 +25,25 @@ class ApiConnection {
 	}
 
 	public function patch<T>(url:String, data:String):T {
-		return doRequest(Path.join([apiUrl, url]), customRequest.bind(_, true, "PATCH"), data);
+		return doRequest(Path.join([apiUrl, url]), customRequest.bind(_, true, "PATCH"), Bytes.ofString(data));
 	}
 
 	public function post<T>(url:String, data:String):T {
-		return doRequest(Path.join([apiUrl, url]), customRequest.bind(_, true, "POST"), data);
+		return doRequest(Path.join([apiUrl, url]), customRequest.bind(_, true, "POST"), Bytes.ofString(data));
 	}
 
-	public function postDirect<T>(url:String, data:String, headers:Headers):T {
+	public function postDirect<T>(url:String, data:Bytes, headers:Headers):T {
 		return doRequest(url, customRequest.bind(_, true, "POST", headers), data);
 	}
 
 	public function put<T>(url:String, data:String):T {
-		return doRequest(Path.join([apiUrl, url]), customRequest.bind(_, true, "PUT"), data);
+		return doRequest(Path.join([apiUrl, url]), customRequest.bind(_, true, "PUT"), Bytes.ofString(data));
 	}
 
-	function doRequest<T>(url:String, f:Http->Void, ?data = null):T {
+	function doRequest<T>(url:String, f:Http->Void, ?data:Bytes = null):T {
 		var http = new Http(url);
 		if (data != null) {
-			http.setPostData(data);
+			http.setPostBytes(data);
 		}
 		var isError:Null<Bool> = null, msg = null;
 		http.onData = function (s) { isError = false; msg = s; };

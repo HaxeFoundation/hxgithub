@@ -27,6 +27,7 @@ class MediaTypesMap {
 		"gml" => "application/gml+xml",
 		"gpx" => "application/gpx+xml",
 		"gxf" => "application/gxf",
+		"gz" => "application/gzip",
 		"stk" => "application/hyperstudio",
 		"ink" => "application/inkml+xml",
 		"inkml" => "application/inkml+xml",

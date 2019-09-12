@@ -42,6 +42,6 @@ abstract ReleaseApi(Api) {
 
 	public function uploadAsset(release:Release, name:String, ?label:String, data:Bytes) {
 		var file = new haxe.io.Path(name);
-		this.connection.postDirect(new UriTpl(release.upload_url).render({name: name, label:label}), data.toString(), [{name: "Content-Type", value: github.helper.MediaTypesMap.map[file.ext]}]);
+		this.connection.postDirect(new UriTpl(release.upload_url).render({name: name, label:label}), data, [{name: "Content-Type", value: github.helper.MediaTypesMap.map[file.ext]}]);
 	}
 }

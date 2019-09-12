@@ -11,7 +11,7 @@ class CommandLineParser {
 		var argParser = hxargs.Args.generate([
 			@doc("The GitHub auth token")
 			["-t", "--token"] => function(token:String) {
-				config.accessToken = token;
+				config.accessToken = token.trim();
 			},
 			@doc("Comma separated list of what targets to handle: linux64 mac-installer mac windows-installer windows")
 			["-ts", "--targets"] => function(s:String) {
@@ -72,7 +72,7 @@ class CommandLineParser {
 
 		if (config.accessToken == null) {
 			try {
-				config.accessToken = File.getContent(".github-token");
+				config.accessToken = File.getContent(".github-token").trim();
 			} catch(e:Dynamic) {
 				stderr("Required argument --token is missing");
 				stderr(argParser.getDoc());
