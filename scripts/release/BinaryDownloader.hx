@@ -21,7 +21,7 @@ class BinaryDownloader {
 		Sys.println("Downloading files");
 
 		for (target in config.targets) {
-			neko.vm.Thread.create(handleTarget.bind(target));
+			sys.thread.Thread.create(handleTarget.bind(target));
 		}
 
 		while(handledTargets < config.targets.length) { }
