@@ -15,7 +15,7 @@ class ChangelogParser {
 				if (line.endsWith(":")) {
 					changelog.add("\n__" + line.trim().substr(0, -1) + "__:\n\n");
 				} else {
-					line = ~/\(#(([0-9][0-9][0-9][0-9]))\)/.map(line, function(r) return "([#" + r.matched(1) + "](https://github.com/HaxeFoundation/haxe/issues/" + r.matched(1) +"))");
+					line = ~/\(#([0-9]{3,6})\)/.map(line, function(r) return "([#" + r.matched(1) + "](https://github.com/HaxeFoundation/haxe/issues/" + r.matched(1) +"))");
 					changelog.add("* " + line.trim() + "\n");
 				}
 			} else {
