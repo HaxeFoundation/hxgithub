@@ -19,7 +19,7 @@ class ChangelogParser {
 					changelog.add("* " + line.trim() + "\n");
 				}
 			} else {
-				var regex = ~/[0-9]+-[0-9][0-9]-[0-9][0-9]: (.*)/;
+				var regex = ~/[0-9]{4}-[0-9][0-9]-[0-9][0-9]:? (.*)/;
 				if (regex.match(line)) {
 					var version = regex.matched(1);
 					if (config.changelogVersions.has(version)) {
